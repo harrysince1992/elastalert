@@ -1,0 +1,34 @@
+name: Disk utilization exceeded threshold of 80%
+
+type: metric_aggregation
+
+#use_strftime_index: true
+index: metricbeat-*
+
+buffer_time:
+  minutes: 1
+
+metric_agg_key: system.filesystem.used.pct
+metric_agg_type: avg
+query_key: agent.hostname
+
+min_doc_count: 1
+  
+bucket_interval:
+  minutes: 1
+
+max_threshold: 0.8
+
+filter:
+- term:
+    metricset.name: filesystem
+alert:
+- "email"
+email:
+- "harpreetsingh@mastersindia.co"
+alert_text_type: alert_text_only
+alert_text: "
+Disk utilization: {0:.2%}\n
+Host: {1}\n
+Timestamp: {2}"
+alert_text_args: ["metric_system.filesystem.used.pct_avg", "agent.hostname", "@timestamp"]

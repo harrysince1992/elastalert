@@ -1,0 +1,9 @@
+[Unit]
+Description=ElastAlert Service
+
+[Service]
+Type=simple
+ExecStart=python3 -m elastalert.elastalert --config /opt/elastalert/config.yaml --verbose
+
+[Install]
+WantedBy=multi-user.target
